@@ -5,306 +5,176 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Oqestra</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Oqestra is a bit-perfect music player for Android: one library for your phone, NAS and media server, and a signal path you can see.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Doto:wght@600;700;900&amp;display=swap">
+<meta name="description" content="Oqestra is a music player for Android, made for people who own their music.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap">
 <style>
-/* Layout: black hi-fi ground, fine dot texture, one halftone sphere behind the hero; content in a 1120px column */
+/* Layout: white page, one 1120px column; a giant wordmark opens it, the app's stacked-list motif indexes the features */
 :root {
-  --ground: #000000;
-  --raised: #0B0B0B;
-  --ink: #FFFFFF;
-  --muted: #A3A3A3;
-  --faint: #5E5E5E;
-  --rule: #262626;
-  --dot: #161616;
-  --display: 'Archivo Black', 'Arial Black', 'Helvetica Neue', Arial, sans-serif;
-  --matrix: 'Doto', 'Courier New', ui-monospace, monospace;
-  color-scheme: dark;
+  --paper: #FFFFFF;
+  --ink: #0A0A0A;
+  --muted: #6F6F6F;
+  --faded: #8F8F8F;
+  --rule: #E4E4E2;
+  --wash: #F5F5F3;
+  --brand: 'Bricolage Grotesque', 'Arial Black', sans-serif;
+  --body: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
-body {
-  background-color: var(--ground);
-  background-image: radial-gradient(circle, var(--dot) 0.6px, transparent 0.9px);
-  background-size: 6px 6px;
-  color: var(--ink);
-  font-family: var(--display);
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
-}
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
 a { color: var(--ink); }
-a:focus-visible, button:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.matrix { font-family: var(--matrix); font-weight: 700; letter-spacing: 0.08em; }
-.label { font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
-h1, h2, h3 { font-weight: 400; margin: 0; text-wrap: balance; }
-p { margin: 0; }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1, h2, h3, p { margin: 0; }
+h2 { font-weight: 400; font-size: clamp(30px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
 
-/* nav */
-header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); border-bottom: 0.5px solid var(--rule); }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--ground); }
-.nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
-.wordmark { font-family: var(--matrix); font-weight: 900; font-size: 24px; letter-spacing: 0.1em; text-decoration: none; }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--paper); }
+.nav { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.mark { font-family: var(--brand); font-weight: 800; font-size: 26px; letter-spacing: -0.035em; line-height: 1; text-decoration: none; }
 .nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
-.nav ul a { text-decoration: none; color: var(--muted); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; }
+.nav ul a { text-decoration: none; color: var(--muted); font-size: 14px; }
 .nav ul a:hover { color: var(--ink); }
 @media (max-width: 720px) { .nav ul { display: none; } }
-.pill { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 22px; border-radius: 22px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; }
-.pill.solid { background: var(--ink); color: var(--ground); }
-.pill.line { border: 0.5px solid #4A4A4A; color: var(--ink); }
-.pill.line:hover { border-color: var(--ink); }
-.dot { width: 6px; height: 6px; border-radius: 3px; background: currentColor; display: inline-block; }
 
-/* hero */
-.hero { position: relative; overflow: hidden; }
-.hero::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(circle, #FFFFFF 1.1px, transparent 1.5px);
-  background-size: 5px 5px;
-  -webkit-mask-image: radial-gradient(circle at 74% 46%, rgba(0,0,0,0.55) 0, rgba(0,0,0,0.25) 22%, transparent 42%);
-  mask-image: radial-gradient(circle at 74% 46%, rgba(0,0,0,0.55) 0, rgba(0,0,0,0.25) 22%, transparent 42%);
-}
-.hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 48px; align-items: center; padding-block: 72px 88px; }
+.pill { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 24px; border-radius: 999px; font-size: 15px; font-weight: 500; text-decoration: none; }
+.pill.solid { background: var(--ink); color: var(--paper); }
+.pill.line { border: 1px solid var(--ink); }
+.pill svg { width: 12px; height: 12px; }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 56px; align-items: center; padding-block: 72px 88px; }
 .hero-copy { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
-.hero h1 { font-size: clamp(44px, 7vw, 84px); line-height: 0.98; letter-spacing: -0.02em; }
-.hero h1 .matrix { display: block; font-weight: 900; letter-spacing: 0.02em; }
-.lede { color: var(--muted); font-size: 16px; max-width: 34em; }
+.giant { font-family: var(--brand); font-weight: 800; font-size: clamp(72px, 13vw, 168px); letter-spacing: -0.045em; line-height: 0.9; }
+.lede { font-size: clamp(20px, 2.2vw, 26px); line-height: 1.35; max-width: 22em; text-wrap: balance; }
+.sub { color: var(--muted); max-width: 34em; }
 .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
-.format { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13px; }
-.format i { width: 3px; height: 3px; border-radius: 2px; background: var(--faint); display: inline-block; }
-.phone { width: 312px; max-width: 100%; aspect-ratio: 390 / 844; border-radius: 40px; border: 0.5px solid #3A3A3A; overflow: hidden; background: var(--ground); justify-self: center; position: relative; box-shadow: 0 0 0 8px #0A0A0A, 0 0 0 8.5px #2A2A2A; }
-.phone iframe { position: absolute; top: 0; left: 0; width: 390px; height: 844px; border: 0; transform: scale(0.8); transform-origin: top left; pointer-events: none; }
-@media (max-width: 860px) { .hero-grid { grid-template-columns: minmax(0, 1fr); padding-block: 48px 64px; } }
+.phone { width: 320px; max-width: 100%; aspect-ratio: 390 / 844; border-radius: 44px; overflow: hidden; position: relative; justify-self: center; background: var(--paper); box-shadow: 0 0 0 1px var(--rule), 0 30px 60px -30px rgba(0,0,0,0.25); }
+.phone iframe { position: absolute; inset: 0 auto auto 0; width: 390px; height: 844px; border: 0; transform: scale(0.8205); transform-origin: top left; pointer-events: none; }
+@media (max-width: 880px) { .hero { grid-template-columns: minmax(0, 1fr); padding-block: 48px 64px; } }
 
-/* spec strip */
-.specs { border-block: 0.5px solid var(--rule); }
-.specs ul { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px 28px; list-style: none; margin: 0; padding: 22px 0; font-size: 14px; }
-.specs li { display: flex; align-items: baseline; gap: 10px; }
-.specs small { font-family: var(--display); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+section.block { padding-block: 88px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 40px; }
+.head { display: flex; flex-direction: column; gap: 14px; max-width: 42em; }
+.head p.lead { color: var(--muted); }
 
-/* sections */
-section.block { padding-block: 96px; display: flex; flex-direction: column; gap: 48px; }
-.head { display: flex; flex-direction: column; gap: 14px; max-width: 40em; }
-.head h2 { font-size: clamp(30px, 4.4vw, 48px); line-height: 1.04; letter-spacing: -0.015em; }
-.head p { color: var(--muted); }
+.index { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 48px; align-items: start; }
+.stack { list-style: none; margin: 0; padding: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.12; letter-spacing: -0.015em; }
+.stack li { color: #A3A3A3; }
+.stack li.on { color: var(--ink); display: flex; align-items: center; gap: 16px; }
+.stack svg { width: 26px; height: 22px; }
+.features { display: grid; grid-template-columns: minmax(0, 1fr); }
+.feature { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 16px; padding-block: 20px; border-bottom: 1px solid var(--rule); }
+.feature:first-child { border-top: 1px solid var(--rule); }
+.feature .n { color: var(--muted); font-size: 14px; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.feature h3 { font-size: 18px; font-weight: 500; line-height: 1.3; }
+.feature p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+@media (max-width: 880px) { .index { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 
-.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 0.5px solid var(--rule); }
-.pillar { padding: 28px 28px 8px 0; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.pillar + .pillar { padding-left: 28px; border-left: 0.5px solid var(--rule); }
-.pillar h3 { font-size: 20px; line-height: 1.2; }
-.pillar p { color: var(--muted); }
-.pillar .matrix { font-size: 13px; color: var(--ink); }
-@media (max-width: 860px) { .pillars { grid-template-columns: minmax(0, 1fr); } .pillar, .pillar + .pillar { padding: 24px 0; border-left: 0; } .pillar + .pillar { border-top: 0.5px solid var(--rule); } }
-
-/* signal path */
-.path { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
-.path li { display: flex; flex-direction: column; gap: 10px; padding-right: 12px; position: relative; min-width: 0; }
-.path li::before { content: ""; height: 1px; background-image: radial-gradient(circle, #6A6A6A 0.8px, transparent 1px); background-size: 5px 1px; position: absolute; top: 5px; left: 14px; right: 0; }
-.path li:last-child::before { display: none; }
-.path .node { width: 11px; height: 11px; border-radius: 6px; background: var(--ink); }
-.path .node.off { background: transparent; border: 0.75px solid var(--muted); }
-.path .node.end { box-shadow: 0 0 0 4px rgba(255,255,255,0.1); }
-.path strong { font-weight: 400; font-size: 14px; }
-.path span { font-family: var(--matrix); font-weight: 700; font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
-@media (max-width: 860px) {
-  .path { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .path li { flex-direction: row; align-items: baseline; gap: 16px; padding: 0 0 22px 0; }
-  .path li::before { top: 14px; bottom: 0; left: 5px; right: auto; width: 1px; height: auto; background-size: 1px 5px; }
-  .path .node { flex-shrink: 0; }
-}
-
-/* screens */
 .screens { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
-.screen { flex: 0 0 auto; display: flex; flex-direction: column; gap: 14px; scroll-snap-align: start; }
-.screen .frame { width: 234px; height: 506px; border-radius: 28px; border: 0.5px solid #3A3A3A; overflow: hidden; position: relative; background: var(--ground); }
-.screen iframe { position: absolute; top: 0; left: 0; width: 390px; height: 844px; border: 0; transform: scale(0.6); transform-origin: top left; pointer-events: none; }
-.screen a { text-decoration: none; display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
-.screen a span { color: var(--muted); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+.screen { flex: 0 0 auto; display: flex; flex-direction: column; gap: 12px; scroll-snap-align: start; }
+.screen .frame { width: 234px; height: 506px; border-radius: 30px; overflow: hidden; position: relative; background: var(--paper); box-shadow: 0 0 0 1px var(--rule); }
+.screen iframe { position: absolute; inset: 0 auto auto 0; width: 390px; height: 844px; border: 0; transform: scale(0.6); transform-origin: top left; pointer-events: none; }
+.screen a { text-decoration: none; font-size: 14px; font-weight: 500; }
 
-/* details */
-.details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
-.detail { padding-block: 22px; border-top: 0.5px solid var(--rule); display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.detail h3 { font-size: 15px; }
-.detail p { color: var(--muted); font-size: 14px; }
-@media (max-width: 860px) { .details { grid-template-columns: minmax(0, 1fr); } }
+.next { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; }
+.next div { padding-block: 18px; border-top: 1px solid var(--rule); }
+.next h3 { font-size: 16px; font-weight: 500; }
+.next p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.tag { display: inline-block; margin-left: 8px; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 8px; vertical-align: 2px; }
+@media (max-width: 760px) { .next { grid-template-columns: minmax(0, 1fr); } }
 
-/* plans */
-.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.plan { border: 0.5px solid var(--rule); border-radius: 6px; padding: 32px; display: flex; flex-direction: column; gap: 20px; background: var(--raised); min-width: 0; }
-.plan.pro { border-color: #5A5A5A; }
-.plan h3 { font-size: 26px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.plan h3 .matrix { font-size: 14px; color: var(--muted); }
-.plan ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.plan li { display: flex; gap: 12px; align-items: baseline; color: var(--muted); font-size: 14px; }
-.plan li::before { content: ""; width: 5px; height: 5px; border-radius: 3px; background: var(--ink); flex-shrink: 0; transform: translateY(-2px); }
-@media (max-width: 760px) { .plans { grid-template-columns: minmax(0, 1fr); } .plan { padding: 24px; } }
-
-/* closing */
-.closing { border-top: 0.5px solid var(--rule); padding-block: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
-.closing h2 { font-size: clamp(34px, 6vw, 72px); line-height: 1; letter-spacing: -0.02em; }
-footer { border-top: 0.5px solid var(--rule); }
-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 28px 40px; color: var(--muted); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-copy > * { animation: rise 700ms cubic-bezier(.2,.7,.2,1) both; }
-  .hero-copy > *:nth-child(2) { animation-delay: 80ms; }
-  .hero-copy > *:nth-child(3) { animation-delay: 160ms; }
-  .hero-copy > *:nth-child(4) { animation-delay: 240ms; }
-  @keyframes rise { from { transform: translateY(10px); opacity: 0.6; } to { transform: none; opacity: 1; } }
-}
+.closing { padding-block: 96px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+footer { border-top: 1px solid var(--rule); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 28px 40px; color: var(--muted); font-size: 13px; }
+footer .mark { font-size: 18px; color: var(--ink); }
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap nav">
-    <a class="wordmark" href="#top" aria-label="Oqestra home">OQESTRA</a>
+    <a class="mark" href="#top" aria-label="Oqestra home">Øqesträ</a>
     <nav aria-label="Sections">
       <ul>
-        <li><a href="#engine">Engine</a></li>
-        <li><a href="#signal">Signal path</a></li>
+        <li><a href="#features">Features</a></li>
         <li><a href="#screens">Screens</a></li>
-        <li><a href="#pro">Free &amp; Pro</a></li>
+        <li><a href="#next">Coming next</a></li>
       </ul>
     </nav>
-    <a class="pill line" href="#pro">2027 · Android</a>
+    <a class="pill solid" href="#next" style="min-height: 40px; padding: 0 18px; font-size: 14px">Android · 2027</a>
   </div>
 </header>
 
 <main id="top">
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="format matrix"><span>FLAC</span><i></i><span>24/96</span><i></i><span>BIT-PERFECT</span><i></i><span style="color: var(--muted)">USB DAC</span></p>
-        <h1 id="hero-title">Every bit,<span class="matrix">untouched.</span></h1>
-        <p class="lede">Oqestra is a music player for Android, made for people who own their music. A bit-perfect audio engine, one library for your phone, NAS and media server, and a signal path you can see from file to DAC.</p>
-        <div class="ctas">
-          <a class="pill solid" href="#pro"><span class="dot"></span>Coming to Google Play in 2027</a>
-          <a class="pill line" href="#screens">See the screens</a>
-        </div>
-      </div>
-      <div class="phone">
-        <iframe src="mockups/now-playing.html" title="Oqestra now playing screen" loading="lazy" tabindex="-1"></iframe>
+  <div class="wrap hero">
+    <div class="hero-copy">
+      <h1 class="giant" aria-label="Oqestra">Øqesträ</h1>
+      <p class="lede">A music player for Android, made for people who own their music.</p>
+      <p class="sub">Your files, organised beautifully. A ten-band equaliser, a visualiser that takes its colours from the album art, and a queue you can actually see. No ads, no account, nothing leaves your phone.</p>
+      <div class="ctas">
+        <a class="pill solid" href="#next"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3v18l16-9z"></path></svg>Coming to Google Play</a>
+        <a class="pill line" href="#screens">See the screens</a>
       </div>
     </div>
-  </section>
-
-  <div class="specs">
-    <ul class="wrap matrix" aria-label="Audio specifications">
-      <li>32/768 <small>PCM up to</small></li>
-      <li>DSD256 <small>Native</small></li>
-      <li>64-BIT <small>DSP</small></li>
-      <li>UAC1 · UAC2 <small>USB DACs</small></li>
-      <li>GAPLESS <small>Always</small></li>
-    </ul>
+    <div class="phone">
+      <iframe src="mockups/library.html" title="Oqestra collection screen" loading="lazy" tabindex="-1"></iframe>
+    </div>
   </div>
 
   <div class="wrap">
-    <section class="block" id="engine" aria-labelledby="engine-title">
-      <div class="head">
-        <p class="label">Why Oqestra</p>
-        <h2 id="engine-title">The audiophile engine and the player you want to look at, in one app.</h2>
-        <p>Most listeners run two players: one that sounds right and one that looks right. Oqestra is built to be both.</p>
+    <section class="block" id="features" aria-labelledby="features-title">
+      <div class="index">
+        <div class="head">
+          <p class="eyebrow">In the app today</p>
+          <h2 id="features-title">Everything in one quiet place.</h2>
+          <ul class="stack" aria-hidden="true">
+            <li class="on">Albums <svg viewBox="0 0 26 22" fill="currentColor"><rect x="0" y="8" width="3" height="6"></rect><rect x="6" y="3" width="3" height="16"></rect><rect x="12" y="0" width="3" height="22"></rect><rect x="18" y="5" width="3" height="12"></rect><rect x="23" y="8" width="3" height="6"></rect></svg></li>
+            <li>Songs</li>
+            <li>Artists</li>
+            <li>Playlists</li>
+          </ul>
+        </div>
+        <ol class="features" style="list-style: none; margin: 0; padding: 0">
+          <li class="feature"><span class="n">1</span><div><h3>Your whole library</h3><p>Albums, songs and artists from the music on your phone, with search across everything.</p></div></li>
+          <li class="feature"><span class="n">2</span><div><h3>Folder playlists</h3><p>Turn any folder into a playlist. Add songs to the folder and the playlist follows.</p></div></li>
+          <li class="feature"><span class="n">3</span><div><h3>Ten-band equaliser</h3><p>31 Hz to 16 kHz, nine presets, a live response curve and a preamp that keeps boosts clean.</p></div></li>
+          <li class="feature"><span class="n">4</span><div><h3>A visualiser that matches the album</h3><p>Bars, Wave or Orbit, coloured from the cover art so every record gets its own mood.</p></div></li>
+          <li class="feature"><span class="n">5</span><div><h3>A queue you can see</h3><p>Slide up to see what plays next, in the real order, even on shuffle.</p></div></li>
+          <li class="feature"><span class="n">6</span><div><h3>Plays in the background</h3><p>Notification and lock-screen controls, headset buttons, and it pauses when you unplug.</p></div></li>
+        </ol>
       </div>
-      <div class="pillars">
-        <article class="pillar">
-          <p class="matrix">ENGINE</p>
-          <h3>Bit-perfect by default</h3>
-          <p>Our own USB driver sends every bit of the file to your DAC untouched, up to 32-bit/768 kHz and native DSD. On Android 14 and later it uses the system's bit-perfect path too.</p>
-        </article>
-        <article class="pillar">
-          <p class="matrix">LIBRARY</p>
-          <h3>One library, every source</h3>
-          <p>Files on your phone, your NAS over SMB or WebDAV, and Jellyfin, Plex or Navidrome servers, merged into one library with duplicates folded together.</p>
-        </article>
-        <article class="pillar">
-          <p class="matrix">SIGNAL</p>
-          <h3>See what reaches the DAC</h3>
-          <p>The signal-path inspector shows every step from file to output, and tells you plainly when playback is bit-perfect and when something is changing the sound.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="block" id="signal" aria-labelledby="signal-title">
-      <div class="head">
-        <p class="label">Signal path</p>
-        <h2 id="signal-title">No guessing what happens to your music.</h2>
-        <p>An example chain for a 24-bit FLAC file played to a USB DAC with processing switched off.</p>
-      </div>
-      <ol class="path">
-        <li><span class="node"></span><strong>Source</strong><span>FLAC 24/96</span></li>
-        <li><span class="node"></span><strong>Decoder</strong><span>24-BIT INT</span></li>
-        <li><span class="node off"></span><strong>DSP</strong><span>BYPASSED</span></li>
-        <li><span class="node off"></span><strong>Volume</strong><span>ON THE DAC</span></li>
-        <li><span class="node"></span><strong>Output</strong><span>USB EXCLUSIVE</span></li>
-        <li><span class="node end"></span><strong>USB DAC</strong><span>BIT-PERFECT</span></li>
-      </ol>
     </section>
 
     <section class="block" id="screens" aria-labelledby="screens-title">
       <div class="head">
-        <p class="label">Screens</p>
-        <h2 id="screens-title">Black, quiet and precise.</h2>
-        <p>Early designs. The app will change as we build it.</p>
+        <p class="eyebrow">Screens</p>
+        <h2 id="screens-title">White, calm and easy to read.</h2>
+        <p class="lead">Early designs. Album names are placeholders.</p>
       </div>
       <div class="screens">
-        <div class="screen"><div class="frame"><iframe src="mockups/now-playing.html" title="Now playing screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/now-playing.html">Now playing <span>Open</span></a></div>
-        <div class="screen"><div class="frame"><iframe src="mockups/library.html" title="Library screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/library.html">Library <span>Open</span></a></div>
-        <div class="screen"><div class="frame"><iframe src="mockups/signal-path.html" title="Signal path screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/signal-path.html">Signal path <span>Open</span></a></div>
-        <div class="screen"><div class="frame"><iframe src="mockups/sound-eq.html" title="Sound and EQ screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/sound-eq.html">Sound &amp; EQ <span>Open</span></a></div>
+        <div class="screen"><div class="frame"><iframe src="mockups/library.html" title="Collection screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/library.html">Collection</a></div>
+        <div class="screen"><div class="frame"><iframe src="mockups/album.html" title="Album screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/album.html">Album</a></div>
+        <div class="screen"><div class="frame"><iframe src="mockups/now-playing.html" title="Now playing screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/now-playing.html">Now playing</a></div>
+        <div class="screen"><div class="frame"><iframe src="mockups/songs.html" title="Songs screen" loading="lazy" tabindex="-1"></iframe></div><a href="mockups/songs.html">Songs</a></div>
       </div>
     </section>
 
-    <section class="block" aria-labelledby="details-title">
+    <section class="block" id="next" aria-labelledby="next-title">
       <div class="head">
-        <p class="label">Details</p>
-        <h2 id="details-title">Everything a serious library needs.</h2>
+        <p class="eyebrow">Coming next</p>
+        <h2 id="next-title">Built for the way audiophiles listen.</h2>
+        <p class="lead">Oqestra arrives on Google Play in 2027. It will be free to use, with Pro as a one-time unlock. No subscription.</p>
       </div>
-      <div class="details">
-        <div class="detail"><h3>Parametric EQ and AutoEq</h3><p>Up to 32 bands, headphone correction profiles, and convolution for room or headphone filters.</p></div>
-        <div class="detail"><h3>Profiles per output</h3><p>EQ and output settings remember each headphone, Bluetooth device and DAC.</p></div>
-        <div class="detail"><h3>Gapless, always</h3><p>Live albums and classical play without a break. Smart crossfade never cuts inside an album.</p></div>
-        <div class="detail"><h3>Synced lyrics</h3><p>Line and word-level lyrics from your files, cached for offline listening.</p></div>
-        <div class="detail"><h3>Auto, Wear and TV</h3><p>Android Auto, Wear OS, Android TV and Chromecast, with hand-off between them.</p></div>
-        <div class="detail"><h3>Private by design</h3><p>No ads, no account, and every network feature stays off until you switch it on.</p></div>
+      <div class="next">
+        <div><h3>Bit-perfect USB output <span class="tag">Planned</span></h3><p>Send every bit of the file to your DAC untouched, including high-resolution and DSD.</p></div>
+        <div><h3>Parametric EQ and headphone correction <span class="tag">Planned</span></h3><p>Precise filters plus AutoEq profiles for thousands of headphones.</p></div>
+        <div><h3>Signal-path inspector <span class="tag">Planned</span></h3><p>See exactly what happens to the sound from file to DAC.</p></div>
+        <div><h3>Your media servers <span class="tag">Planned</span></h3><p>Jellyfin, Plex, Navidrome and network shares in the same library.</p></div>
       </div>
     </section>
 
-    <section class="block" id="pro" aria-labelledby="pro-title">
-      <div class="head">
-        <p class="label">Free &amp; Pro</p>
-        <h2 id="pro-title">Free to play. Pro is a one-time unlock.</h2>
-        <p>No subscription. Try Pro free for 14 days on your own DAC before you buy.</p>
-      </div>
-      <div class="plans">
-        <article class="plan">
-          <h3>Free <span class="matrix">NO ADS, EVER</span></h3>
-          <ul>
-            <li>Full local playback, gapless</li>
-            <li>Multiple saved queues</li>
-            <li>Themes and widgets</li>
-            <li>Basic EQ</li>
-            <li>Android Auto</li>
-          </ul>
-        </article>
-        <article class="plan pro">
-          <h3>Pro <span class="matrix">ONE-TIME</span></h3>
-          <ul>
-            <li>Bit-perfect USB driver and native DSD</li>
-            <li>Parametric EQ, AutoEq and convolution</li>
-            <li>NAS and media-server sources</li>
-            <li>Signal-path inspector</li>
-            <li>Listening stats</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-  </div>
-
-  <div class="wrap">
     <section class="closing" aria-labelledby="closing-title">
-      <p class="format matrix"><span>ANDROID</span><i></i><span>2027</span></p>
-      <h2 id="closing-title">Hear the file, not the phone.</h2>
-      <a class="pill solid" href="#top"><span class="dot"></span>Coming to Google Play in 2027</a>
+      <h2 id="closing-title">Your music, played properly.</h2>
+      <a class="pill solid" href="#top"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3v18l16-9z"></path></svg>Coming to Google Play</a>
     </section>
   </div>
 </main>
@@ -312,7 +182,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <footer>
   <div class="wrap">
     <span>© 2026 Kith + Keen</span>
-    <span class="matrix" style="letter-spacing: 0.1em">OQESTRA</span>
+    <span class="mark" aria-label="Oqestra">Øqesträ</span>
   </div>
 </footer>
 </body>
