@@ -44,6 +44,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pill.line { color: var(--muted); }
 .pill:hover { color: var(--ink); }
 .pill svg { width: 11px; height: 11px; }
+.dlnote { font-size: 13px; line-height: 1.5; color: var(--muted); max-width: 46ch; }
 
 .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 56px; align-items: center; padding-block: 72px 88px; }
 .hero-copy { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
@@ -115,7 +116,7 @@ footer .mark { font-size: 18px; color: var(--ink); }
         <li><a href="#next">Coming next</a></li>
       </ul>
     </nav>
-    <a class="pill solid" href="#next"><span>Android · 2027</span></a>
+    <a class="pill solid" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg><span>Download</span></a>
   </div>
 </header>
 
@@ -124,11 +125,12 @@ footer .mark { font-size: 18px; color: var(--ink); }
     <div class="hero-copy">
       <h1 class="giant" aria-label="Oqestra">Øqesträ</h1>
       <p class="lede">A music player for Android, made for people who own their music.</p>
-      <p class="sub">Your files, organised beautifully. A ten-band equaliser, a visualiser that takes its colours from the album art, and a queue you can actually see. No ads, no account, nothing leaves your phone.</p>
+      <p class="sub">Your files, organised beautifully. Its own sound engine, an equaliser with headphone correction for about 6,000 models, and a visualiser that takes its colours from the album art. No ads, no account, nothing leaves your phone.</p>
       <div class="ctas">
-        <a class="pill solid" href="#next"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3v18l16-9z"></path></svg><span>Coming to Google Play</span></a>
+        <a class="pill solid" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg><span>Download for Android</span></a>
         <a class="pill line" href="#screens">See the screens</a>
       </div>
+      <p class="dlnote">Test build 0.4.0 for Android 8.0 or newer, about 26 MB. Android will ask you to allow installs from your browser. The Google Play release follows in 2027.</p>
     </div>
     <div class="device"><div class="glass"><div class="stage"><iframe src="mockups/library.html" title="Oqestra collection screen" loading="lazy" tabindex="-1"></iframe></div></div>
     </div>
@@ -148,12 +150,12 @@ footer .mark { font-size: 18px; color: var(--ink); }
           </ul>
         </div>
         <ol class="features" style="list-style: none; margin: 0; padding: 0">
-          <li class="feature"><span class="n">1</span><div><h3>Your whole library</h3><p>Albums, songs and artists from the music on your phone, with search across everything.</p></div></li>
-          <li class="feature"><span class="n">2</span><div><h3>Folder playlists</h3><p>Turn any folder into a playlist. Add songs to the folder and the playlist follows.</p></div></li>
-          <li class="feature"><span class="n">3</span><div><h3>Ten-band equaliser</h3><p>31 Hz to 16 kHz, nine presets, a live response curve and a preamp that keeps boosts clean.</p></div></li>
-          <li class="feature"><span class="n">4</span><div><h3>A visualiser that matches the album</h3><p>Bars, Wave or Orbit, coloured from the cover art so every record gets its own mood.</p></div></li>
+          <li class="feature"><span class="n">1</span><div><h3>Your whole library</h3><p>Albums, songs and artists from the music on your phone, search across everything, and any folder as a playlist.</p></div></li>
+          <li class="feature"><span class="n">2</span><div><h3>Its own sound engine</h3><p>Oqestra decodes your files itself and processes in 64-bit, with gapless playback. Lossless music leaves the engine bit for bit.</p></div></li>
+          <li class="feature"><span class="n">3</span><div><h3>An equaliser for every pair</h3><p>Graphic or parametric, with headphone correction for about 6,000 models. Each speaker, headphone and DAC keeps its own settings.</p></div></li>
+          <li class="feature"><span class="n">4</span><div><h3>A visualiser that matches the album</h3><p>Five patterns and eight themes, coloured from the cover art so every record gets its own mood.</p></div></li>
           <li class="feature"><span class="n">5</span><div><h3>A queue you can see</h3><p>Slide up to see what plays next, in the real order, even on shuffle.</p></div></li>
-          <li class="feature"><span class="n">6</span><div><h3>Plays in the background</h3><p>Notification and lock-screen controls, headset buttons, and it pauses when you unplug.</p></div></li>
+          <li class="feature"><span class="n">6</span><div><h3>Bit-perfect USB</h3><p>On Android 14 and newer, your USB DAC gets the file untouched. Tap the format line to see every step from file to DAC.</p></div></li>
         </ol>
       </div>
     </section>
@@ -179,9 +181,8 @@ footer .mark { font-size: 18px; color: var(--ink); }
         <p class="lead">Oqestra arrives on Google Play in 2027. It will be free to use, with Pro as a one-time unlock. No subscription.</p>
       </div>
       <div class="next">
-        <div><h3>Bit-perfect USB output <span class="tag">Planned</span></h3><p>Send every bit of the file to your DAC untouched, including high-resolution and DSD.</p></div>
-        <div><h3>Parametric EQ and headphone correction <span class="tag">Planned</span></h3><p>Precise filters plus AutoEq profiles for thousands of headphones.</p></div>
-        <div><h3>Signal-path inspector <span class="tag">Planned</span></h3><p>See exactly what happens to the sound from file to DAC.</p></div>
+        <div><h3>DSD and Oqestra's own USB driver <span class="tag">Planned</span></h3><p>Native DSD, and bit-perfect output on older Android versions and DACs the system path cannot handle.</p></div>
+        <div><h3>Convolution and crossfeed <span class="tag">Planned</span></h3><p>Room and headphone correction from impulse files, and natural speaker-like stereo on headphones.</p></div>
         <div><h3>Your media servers <span class="tag">Planned</span></h3><p>Jellyfin, Plex, Navidrome and network shares in the same library.</p></div>
         <div><h3>Casting <span class="tag">Planned</span></h3><p>Play to Chromecast, UPnP/DLNA and network speakers, and pass playback between phone and speaker without losing your place.</p></div>
       </div>
@@ -189,7 +190,8 @@ footer .mark { font-size: 18px; color: var(--ink); }
 
     <section class="closing" aria-labelledby="closing-title">
       <h2 id="closing-title">Your music, played properly.</h2>
-      <a class="pill solid" href="#top"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3v18l16-9z"></path></svg><span>Coming to Google Play</span></a>
+      <a class="pill solid" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg><span>Download for Android</span></a>
+      <p class="dlnote">Free test build. Updates install over the top and keep your settings.</p>
     </section>
   </div>
 </main>
