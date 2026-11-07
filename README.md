@@ -7,7 +7,7 @@ The landing page for [Oqestra](https://aadvark.github.io/Oqestra-site/), a music
 ```
 index.html      The landing page (single file, no build step)
 mockups/        HTML previews of the app screens, shown in the page's phone frames
-downloads/      The current Android test build (oqestra.apk), linked from the download buttons
+downloads/      The current Android test build (oqestra.apk, now 0.4.1), linked from the download buttons
 ```
 
 ## Preview locally
