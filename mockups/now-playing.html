@@ -77,22 +77,14 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="66" tabindex="0" style="flex: 1; height: 2px; background: #E4E4E2; position: relative">
       <div style="position: absolute; left: 0; top: 0; height: 2px; width: 66%; background: #0A0A0A"></div>
     </div>
-    <button aria-label="Queue" style="width: 44px; height: 44px; margin-right: -10px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"></path></svg>
-    </button>
   </div>
 
-  <section aria-label="Up next" style="margin-top: auto; display: flex; flex-direction: column; border-top: 1px solid #E4E4E2; padding-top: 14px">
-    <div style="display: flex; justify-content: space-between; align-items: baseline">
-      <span style="font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #6F6F6F">Up next</span>
-      <a href="album.html" style="font-size: 12px; text-decoration: none">View queue</a>
-    </div>
-    <div style="display: grid; grid-template-columns: 48px 1fr auto; gap: 14px; align-items: center; height: 68px">
-      <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 6px; background: #1E2A3F; position: relative; overflow: hidden"><span style="position: absolute; left: 22px; top: 9px; width: 22px; height: 22px; border-radius: 11px; background: #E9DCC4"></span><span style="position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: #14203A"></span></span>
-      <span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500">Salt Lines</span><span style="font-size: 13px; color: #6F6F6F">Harbour Lights</span></span>
-      <span style="font-size: 14px; color: #6F6F6F; font-variant-numeric: tabular-nums">3:58</span>
-    </div>
-  </section>
+  <nav aria-label="Player tools" style="margin-top: auto; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #E4E4E2">
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 0 8px; text-decoration: none; color: #0A0A0A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.5" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"></rect><circle cx="12" cy="14" r="3.5"></circle><circle cx="12" cy="7" r="1"></circle></svg><span style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600">Sound</span></a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 0 8px; text-decoration: none; color: #0A0A0A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.5" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg><span style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1.5px">Equaliser</span></a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 0 8px; text-decoration: none; color: #0A0A0A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.5" aria-hidden="true"><path d="M4 10v4M8 6v12M12 9v6M16 4v16M20 10v4"></path></svg><span style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600">Visualiser</span></a>
+    <a href="album.html" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 0 8px; text-decoration: none; color: #0A0A0A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"></path></svg><span style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600">Queue</span></a>
+  </nav>
 </div>
 
 
