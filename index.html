@@ -44,6 +44,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .pill.line { color: var(--muted); }
 .pill:hover { color: var(--ink); }
 .pill svg { width: 11px; height: 11px; }
+/* Download: the one filled button on the page, a long pill. */
+.dl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 52px; min-width: 280px; max-width: 100%; padding: 0 40px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: opacity 0.15s; }
+.dl:hover { opacity: 0.85; }
+.dl svg { width: 13px; height: 13px; }
+.dl.small { height: 38px; min-width: 0; padding: 0 22px; font-size: 11px; }
+.ctas .pill.line { align-self: center; }
 .dlnote { font-size: 13px; line-height: 1.5; color: var(--muted); max-width: 46ch; }
 
 .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 56px; align-items: center; padding-block: 72px 88px; }
@@ -116,7 +122,7 @@ footer .mark { font-size: 18px; color: var(--ink); }
         <li><a href="#next">Coming next</a></li>
       </ul>
     </nav>
-    <a class="pill solid" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg><span>Download</span></a>
+    <a class="dl small" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg>Download</a>
   </div>
 </header>
 
@@ -127,7 +133,7 @@ footer .mark { font-size: 18px; color: var(--ink); }
       <p class="lede">A music player for Android, made for people who own their music.</p>
       <p class="sub">Your files, organised beautifully. Its own sound engine, an equaliser with headphone correction for about 6,000 models, and a visualiser that takes its colours from the album art. No ads, no account, nothing leaves your phone.</p>
       <div class="ctas">
-        <a class="pill solid" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg><span>Download for Android</span></a>
+        <a class="dl" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg>Download for Android</a>
         <a class="pill line" href="#screens">See the screens</a>
       </div>
       <p class="dlnote">Test build 0.4.0 for Android 8.0 or newer, about 26 MB. Android will ask you to allow installs from your browser. The Google Play release follows in 2027.</p>
@@ -190,7 +196,7 @@ footer .mark { font-size: 18px; color: var(--ink); }
 
     <section class="closing" aria-labelledby="closing-title">
       <h2 id="closing-title">Your music, played properly.</h2>
-      <a class="pill solid" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg><span>Download for Android</span></a>
+      <a class="dl" href="https://github.com/aadvark/Oqestra-site/releases/latest/download/oqestra.apk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M6 11l6 6 6-6M4 21h16"></path></svg>Download for Android</a>
       <p class="dlnote">Free test build. Updates install over the top and keep your settings.</p>
     </section>
   </div>
