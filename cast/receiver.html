@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Oqestra on TV</title>
+<!--
+  Oqestra's Cast receiver. The TV loads this page when you cast from Oqestra:
+  it plays the song (fetched from your phone over Wi-Fi) and draws the
+  visualiser from data the phone works out for each song, in step with playback.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&amp;family=Instrument+Sans:wght@400;500&amp;display=swap">
+<script src="https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+<style>
+  :root { --bg: #000; --fg: #fff; --accent: #5a5a5a; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--fg);
+    font-family: "Instrument Sans", system-ui, sans-serif; transition: background-color 1.2s ease; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .mark { position: absolute; top: 5vh; left: 5vw; font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 800; font-size: 3.4vh; letter-spacing: -0.03em; opacity: 0.9; }
+  .now { position: absolute; left: 5vw; right: 5vw; bottom: 7vh; display: flex; align-items: center; gap: 2.6vw;
+    transition: opacity 0.6s ease; }
+  .now img { width: 15vh; height: 15vh; object-fit: cover; border-radius: 1.6vh; background: rgba(127,127,127,0.2); flex: none; }
+  .now img[hidden] { display: none; }
+  .now .text { min-width: 0; }
+  .title { font-size: 5.2vh; font-weight: 500; letter-spacing: -0.015em; line-height: 1.1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .artist { font-size: 3vh; opacity: 0.62; margin-top: 0.8vh; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .paused { position: absolute; top: 5vh; right: 5vw; font-size: 2vh; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0; transition: opacity 0.4s; }
+  body.is-paused .paused { opacity: 0.7; }
+  .idle { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2vh; }
+  .idle .big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: 12vh; letter-spacing: -0.03em; }
+  .idle .small { font-size: 2.6vh; opacity: 0.6; }
+  body.playing .idle { display: none; }
+  body:not(.playing) .now, body:not(.playing) .mark { display: none; }
+</style>
+</head>
+<body>
+<canvas id="vis"></canvas>
+<div class="mark">Øqesträ</div>
+<div class="paused">Paused</div>
+<div class="now"><img id="art" alt="" hidden><div class="text"><div class="title" id="title"></div><div class="artist" id="artist"></div></div></div>
+<div class="idle"><div class="big">Øqesträ</div><div class="small">Ready to play from your phone</div></div>
+<audio id="player"></audio>
+
+<script>
+(() => {
+  const NS = "urn:x-cast:com.kithandkeen.oqestra";
+  const ctx = cast.framework.CastReceiverContext.getInstance();
+  const pm = ctx.getPlayerManager();
+  const audio = document.getElementById("player");
+  pm.setMediaElement(audio);
+
+  // --- Data from the phone --------------------------------------------------
+  // levels[key] = { fps, bands, parts: [Uint8Array], got, data }
+  const levels = new Map();
+  let look = { style: "Bars", bg: "#000000", fg: "#ffffff", accent: "#5a5a5a" };
+
+  function onMessage(e) {
+    let m = e.data;
+    if (typeof m === "string") { try { m = JSON.parse(m); } catch (_) { return; } }
+    if (!m || !m.t) return;
+    if (m.t === "levels") {
+      let entry = levels.get(m.key);
+      if (!entry || entry.parts.length !== m.parts) {
+        entry = { fps: m.fps, bands: m.bands, parts: new Array(m.parts), got: 0, data: null };
+        levels.set(m.key, entry);
+      }
+      if (!entry.parts[m.part]) {
+        const bin = atob(m.data);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        entry.parts[m.part] = bytes;
+        entry.got++;
+      }
+      if (entry.got === entry.parts.length && !entry.data) {
+        const total = entry.parts.reduce((n, p) => n + p.length, 0);
+        entry.data = new Uint8Array(total);
+        let at = 0;
+        for (const p of entry.parts) { entry.data.set(p, at); at += p.length; }
+        entry.parts = entry.parts.map(() => true);
+      }
+      // Keep only the last few songs.
+      while (levels.size > 6) levels.delete(levels.keys().next().value);
+    } else if (m.t === "look") {
+      look = { style: m.style || "Bars", bg: m.bg || "#000000", fg: m.fg || "#ffffff", accent: m.accent || "#5a5a5a" };
+      const root = document.documentElement.style;
+      root.setProperty("--bg", look.bg);
+      root.setProperty("--fg", look.fg);
+      root.setProperty("--accent", look.accent);
+    }
+  }
+  ctx.addCustomMessageListener(NS, onMessage);
+
+  // --- What is playing ------------------------------------------------------
+  let currentKey = null;
+  function keyOf(media) {
+    const url = (media && (media.contentUrl || media.contentId)) || "";
+    const i = url.indexOf("/s/");
+    if (i < 0) return null;
+    return url.substring(i + 3).split(".")[0];
+  }
+  function showMedia() {
+    const media = pm.getMediaInformation();
+    currentKey = keyOf(media);
+    const md = (media && media.metadata) || {};
+    document.getElementById("title").textContent = md.title || "";
+    document.getElementById("artist").textContent = md.artist || md.albumArtist || "";
+    const art = document.getElementById("art");
+    const img = md.images && md.images[0] && md.images[0].url;
+    if (img) { art.src = img; art.hidden = false; } else { art.hidden = true; }
+    art.onerror = () => { art.hidden = true; };
+    document.body.classList.toggle("playing", !!media);
+  }
+  const E = cast.framework.events.EventType;
+  pm.addEventListener(E.PLAYER_LOAD_COMPLETE, showMedia);
+  pm.addEventListener(E.MEDIA_STATUS, showMedia);
+  pm.addEventListener(E.MEDIA_FINISHED, () => document.body.classList.remove("playing"));
+  audio.addEventListener("pause", () => document.body.classList.add("is-paused"));
+  audio.addEventListener("playing", () => document.body.classList.remove("is-paused"));
+
+  // --- Visualiser -----------------------------------------------------------
+  const canvas = document.getElementById("vis");
+  const g = canvas.getContext("2d");
+  let W = 0, H = 0, dpr = 1;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width = Math.round(innerWidth * dpr);
+    H = canvas.height = Math.round(innerHeight * dpr);
+  }
+  addEventListener("resize", resize);
+  resize();
+
+  const N = 48;                    // drawn bands (the phone sends 24; neighbours are blended)
+  const shown = new Float32Array(N);
+  const wave = new Float32Array(256);
+  let phase = 0;
+
+  function target(out) {
+    const entry = currentKey && levels.get(currentKey);
+    if (!entry || !entry.data || audio.paused && audio.currentTime === 0) {
+      // No data yet: breathe gently.
+      const t = performance.now() / 1000;
+      for (let i = 0; i < N; i++) out[i] = audio.paused ? 0 : 0.08 + 0.05 * Math.sin(t * 1.3 + i * 0.4);
+      return;
+    }
+    const rows = entry.data.length / entry.bands;
+    const exact = audio.currentTime * entry.fps;
+    const r0 = Math.max(0, Math.min(rows - 1, Math.floor(exact)));
+    const r1 = Math.min(rows - 1, r0 + 1);
+    const f = Math.min(1, Math.max(0, exact - r0));
+    for (let i = 0; i < N; i++) {
+      const pos = i * (entry.bands - 1) / (N - 1);
+      const b0 = Math.floor(pos), b1 = Math.min(entry.bands - 1, b0 + 1), fb = pos - b0;
+      const at = (r, b) => entry.data[r * entry.bands + b] / 255;
+      const a = at(r0, b0) + (at(r0, b1) - at(r0, b0)) * fb;
+      const c = at(r1, b0) + (at(r1, b1) - at(r1, b0)) * fb;
+      out[i] = a + (c - a) * f;
+    }
+  }
+
+  const want = new Float32Array(N);
+  function frame() {
+    target(want);
+    for (let i = 0; i < N; i++) shown[i] = want[i] > shown[i] ? want[i] : shown[i] * 0.86 + want[i] * 0.14;
+    phase += 0.21;
+    for (let i = 0; i < wave.length; i++) {
+      let v = 0;
+      for (let b = 0; b < N; b += 6) v += shown[b] * Math.sin(phase * (1 + b * 0.18) + i * (0.05 + b * 0.016));
+      wave[i] = v / (N / 6) * 0.9;
+    }
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  function draw() {
+    g.fillStyle = look.bg;
+    g.fillRect(0, 0, W, H);
+    if (!document.body.classList.contains("playing")) return;   // the welcome screen stays clean
+    const fg = look.fg, accent = look.accent, u = H / 1000;   // u: one thousandth of the height
+    const mid = H * 0.44;
+    g.lineCap = "round";
+    switch (look.style) {
+      case "Wave": {
+        const amp = H * 0.24;
+        [[accent, 1.6, 3], [fg, 1, 5]].forEach(([c, gain, w]) => {
+          g.strokeStyle = c; g.lineWidth = w * u; g.beginPath();
+          for (let i = 0; i < wave.length; i++) {
+            const x = W * 0.06 + W * 0.88 * i / (wave.length - 1);
+            const y = mid + Math.max(-amp, Math.min(amp, wave[i] * amp * gain));
+            i ? g.lineTo(x, y) : g.moveTo(x, y);
+          }
+          g.stroke();
+        });
+        break;
+      }
+      case "Orbit": {
+        const cx = W / 2, cy = mid, base = Math.min(W, H) * 0.2;
+        [[accent, 1.5], [fg, 1]].forEach(([c, scale]) => {
+          g.strokeStyle = c; g.lineWidth = 4 * u; g.beginPath();
+          for (let k = 0; k <= N * 2; k++) {
+            const i = k <= N ? k % N : (2 * N - k) % N;
+            const ang = 2 * Math.PI * k / (N * 2) - Math.PI / 2;
+            const r = base + shown[i] * base * 0.9 * scale;
+            const x = cx + r * Math.cos(ang), y = cy + r * Math.sin(ang);
+            k ? g.lineTo(x, y) : g.moveTo(x, y);
+          }
+          g.closePath(); g.stroke();
+        });
+        let bass = 0; for (let i = 0; i < 6; i++) bass += shown[i];
+        g.fillStyle = fg; g.beginPath(); g.arc(cx, cy, base * 0.18 + bass / 6 * base * 0.2, 0, 2 * Math.PI); g.fill();
+        break;
+      }
+      case "Mirror": {
+        const amp = H * 0.28, left = W * 0.06, width = W * 0.88;
+        const top = new Path2D(), refl = new Path2D();
+        top.moveTo(left, mid); refl.moveTo(left, mid);
+        for (let i = 0; i < N; i++) {
+          const v = (shown[Math.max(0, i - 1)] + 2 * shown[i] + shown[Math.min(N - 1, i + 1)]) / 4;
+          const x = left + width * (i + 0.5) / N;
+          top.lineTo(x, mid - 3 * u - v * amp);
+          refl.lineTo(x, mid + 3 * u + v * amp * 0.45);
+        }
+        top.lineTo(left + width, mid); refl.lineTo(left + width, mid);
+        g.fillStyle = fg; g.fill(top);
+        g.globalAlpha = 0.55; g.fillStyle = accent; g.fill(refl); g.globalAlpha = 1;
+        break;
+      }
+      case "Dots": {
+        const cols = 24, rows = 16;
+        const pitch = Math.min(W * 0.88 / cols, H * 0.5 / rows), radius = pitch * 0.32;
+        const left = (W - pitch * cols) / 2 + pitch / 2, bottom = mid + pitch * rows * 0.4;
+        for (let c = 0; c < cols; c++) {
+          const v = Math.max(shown[c * 2], shown[c * 2 + 1]);
+          const lit = Math.max(1, Math.min(rows, Math.round(v * rows)));
+          for (let r = 0; r < rows; r++) {
+            g.globalAlpha = r < lit ? 1 : 0.1;
+            g.fillStyle = r < lit && r >= rows - 3 ? accent : fg;
+            g.beginPath(); g.arc(left + c * pitch, bottom - r * pitch, radius, 0, 2 * Math.PI); g.fill();
+          }
+        }
+        g.globalAlpha = 1;
+        break;
+      }
+      default: { // Bars
+        const left = W * 0.06, width = W * 0.88, gap = width / N;
+        g.strokeStyle = fg; g.lineWidth = gap * 0.55;
+        for (let i = 0; i < N; i++) {
+          const h = 8 * u + shown[i] * H * 0.28;
+          const x = left + gap * i + gap / 2;
+          g.beginPath(); g.moveTo(x, mid - h); g.lineTo(x, mid + h * 0.35); g.stroke();
+        }
+      }
+    }
+  }
+
+  requestAnimationFrame(frame);
+
+  // Music only: no idle timeout while paused for a short while.
+  const options = new cast.framework.CastReceiverOptions();
+  options.customNamespaces = { [NS]: cast.framework.system.MessageType.JSON };
+  options.disableIdleTimeout = false;
+  options.maxInactivity = 3600;
+  ctx.start(options);
+})();
+</script>
+</body>
+</html>
