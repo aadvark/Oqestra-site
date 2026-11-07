@@ -98,7 +98,7 @@ section.block { padding-block: 88px; border-top: 1px solid var(--rule); display:
 .screen a { text-decoration: none; font-size: 14px; font-weight: 500; }
 /* Widgets shown on a soft "wallpaper" so the frosted glass reads as glass. */
 .widgets { margin-top: 56px; display: flex; flex-direction: column; gap: 16px; }
-.wall { border-radius: 28px; padding: 32px; background: radial-gradient(circle at 15% 20%, #C7D2E2 0, transparent 55%), radial-gradient(circle at 85% 80%, #E8DCC6 0, transparent 60%), #D9DEE6; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px 28px; }
+.wall { border-radius: 28px; padding: 32px; align-items: start; background: radial-gradient(circle at 15% 20%, #C7D2E2 0, transparent 55%), radial-gradient(circle at 85% 80%, #E8DCC6 0, transparent 60%), #D9DEE6; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px 28px; }
 .wall figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .wall img { width: 100%; max-width: 300px; height: auto; display: block; }
 .wall figcaption { font-size: 13px; font-weight: 500; color: #2a2f37; }
@@ -166,7 +166,7 @@ footer .mark { font-size: 18px; color: var(--ink); }
           <li class="feature"><span class="n">2</span><div><h3>Its own sound engine</h3><p>Oqestra decodes your files itself and processes in 64-bit, with gapless playback. Lossless music leaves the engine bit for bit.</p></div></li>
           <li class="feature"><span class="n">3</span><div><h3>An equaliser for every pair</h3><p>Graphic or parametric, with headphone correction for about 6,000 models. Each speaker, headphone and DAC keeps its own settings.</p></div></li>
           <li class="feature"><span class="n">4</span><div><h3>A visualiser that matches the album</h3><p>Five patterns and eight themes, coloured from the cover art so every record gets its own mood. Tap it to play, pause or skip.</p></div></li>
-          <li class="feature"><span class="n">5</span><div><h3>Widgets in three styles</h3><p>White, frosted glass or monochrome, in three sizes, with play, pause and skip on your home screen.</p></div></li>
+          <li class="feature"><span class="n">5</span><div><h3>Widgets in three styles</h3><p>White, frosted glass or monochrome: album art edge to edge, in Oqestra&rsquo;s own type, with play, pause and skip.</p></div></li>
           <li class="feature"><span class="n">6</span><div><h3>Bit-perfect USB</h3><p>On Android 14 and newer, your USB DAC gets the file untouched. Open Sound to see every step from file to DAC.</p></div></li>
         </ol>
       </div>
@@ -187,9 +187,9 @@ footer .mark { font-size: 18px; color: var(--ink); }
       <div class="widgets">
         <p class="eyebrow">Home-screen widgets</p>
         <div class="wall">
-          <figure><img src="images/widget_preview_white.png" alt="White widget: album art, song, artist, and previous, pause and next buttons on white" width="250" height="110"><figcaption>White</figcaption></figure>
-          <figure><img src="images/widget_preview_glass.png" alt="Frosted glass widget: the same controls on a translucent panel tinted by the album art" width="250" height="110"><figcaption>Frosted glass</figcaption></figure>
-          <figure><img src="images/widget_preview_mono.png" alt="Monochrome widget: black background, white text and black-and-white album art" width="250" height="110"><figcaption>Monochrome</figcaption></figure>
+          <figure><img src="images/widget_preview_white.png" alt="White widget: album art edge to edge beside a white panel with the Oqestra wordmark, song, artist and playback buttons" width="350" height="170"><figcaption>White</figcaption></figure>
+          <figure><img src="images/widget_preview_glass.png" alt="Frosted glass widget: the same layout on frosted glass tinted by the album art" width="350" height="170"><figcaption>Frosted glass</figcaption></figure>
+          <figure><img src="images/widget_preview_mono.png" alt="Monochrome widget: the same layout in black, with black-and-white album art" width="350" height="170"><figcaption>Monochrome</figcaption></figure>
         </div>
       </div>
     </section>
