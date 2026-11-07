@@ -1,6 +1,6 @@
 {
-  "versionName": "0.5.0",
-  "versionCode": 413,
+  "versionName": "0.6.0",
+  "versionCode": 414,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Home-screen widgets in white, frosted glass and monochrome. About screen with update checks. The menu is now on every screen."
+  "notes": "Oqestra's own resampler: music at other sample rates is converted at mastering quality, and gapless now works across rates. Day and dark mode in the menu."
 }
