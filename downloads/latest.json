@@ -1,6 +1,6 @@
 {
-  "versionName": "0.6.0",
-  "versionCode": 414,
+  "versionName": "0.6.2",
+  "versionCode": 415,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Oqestra's own resampler: music at other sample rates is converted at mastering quality, and gapless now works across rates. Day and dark mode in the menu."
+  "notes": "Now playing fits one screen, with Sound, Equaliser, Visualiser and Queue always in view. New 4×1 widget strip, and no more overlapping buttons on short widgets. Clearer wording in the Sound panel."
 }
