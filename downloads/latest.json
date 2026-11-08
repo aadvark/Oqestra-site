@@ -1,6 +1,6 @@
 {
-  "versionName": "0.9.0",
-  "versionCode": 419,
+  "versionName": "0.9.2",
+  "versionCode": 420,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Playlists: add songs and whole folders that stay in sync, remove songs, change the order, and import or export M3U8. Swiping the notification away now quits Oqestra."
+  "notes": "Shuffle and repeat on the widget and the bottom bar. A close button on the notification. New playlist from a folder, and Add folder now sits inside Add songs."
 }
