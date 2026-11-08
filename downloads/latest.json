@@ -1,6 +1,6 @@
 {
-  "versionName": "0.8.0",
-  "versionCode": 418,
+  "versionName": "0.9.0",
+  "versionCode": 419,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Long-press any song for its info, tags and lyrics. Select many songs and edit their tags at once. Oqestra now carries on where you left off, even after a restart."
+  "notes": "Playlists: add songs and whole folders that stay in sync, remove songs, change the order, and import or export M3U8. Swiping the notification away now quits Oqestra."
 }
