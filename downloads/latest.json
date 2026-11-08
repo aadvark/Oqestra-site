@@ -1,6 +1,6 @@
 {
-  "versionName": "0.9.2",
-  "versionCode": 420,
+  "versionName": "0.10.0",
+  "versionCode": 421,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Shuffle and repeat on the widget and the bottom bar. A close button on the notification. New playlist from a folder, and Add folder now sits inside Add songs."
+  "notes": "Appearance: ten themes, eight of them bold complementary colour pairs, or pick your own background and text colours. Dark mode is now at the top of the menu."
 }
