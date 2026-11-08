@@ -1,6 +1,6 @@
 {
-  "versionName": "0.7.3",
-  "versionCode": 417,
+  "versionName": "0.8.0",
+  "versionCode": 418,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "MP3s that would not play on the phone now play. The widget's play button shows the real play state, and tapping the notification opens Now playing."
+  "notes": "Long-press any song for its info, tags and lyrics. Select many songs and edit their tags at once. Oqestra now carries on where you left off, even after a restart."
 }
