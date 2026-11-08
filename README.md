@@ -7,7 +7,7 @@ The landing page for [Oqestra](https://aadvark.github.io/Oqestra-site/), a music
 ```
 index.html      The landing page (single file, no build step)
 mockups/        HTML previews of the app screens, shown in the page's phone frames
-downloads/      The current Android test build (oqestra.apk, now 0.7.3), linked from the download buttons,
+downloads/      The current Android test build (oqestra.apk, now 0.8.0), linked from the download buttons,
                 and latest.json, which the app reads to check for updates
 images/         Widget previews
 cast/           receiver.html: the page a Chromecast or Google TV loads when you cast from Oqestra.
