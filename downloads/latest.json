@@ -1,6 +1,6 @@
 {
-  "versionName": "0.10.0",
-  "versionCode": 421,
+  "versionName": "0.10.1",
+  "versionCode": 422,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Appearance: ten themes, eight of them bold complementary colour pairs, or pick your own background and text colours. Dark mode is now at the top of the menu."
+  "notes": "Album covers change with the song again, tapping Now playing no longer jumps to another track, and the Sound panel follows the equaliser at once. Refined, quieter themes."
 }
