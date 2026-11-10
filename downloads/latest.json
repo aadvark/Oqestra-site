@@ -1,6 +1,6 @@
 {
-  "versionName": "0.10.1",
-  "versionCode": 422,
+  "versionName": "0.10.2",
+  "versionCode": 423,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Album covers change with the song again, tapping Now playing no longer jumps to another track, and the Sound panel follows the equaliser at once. Refined, quieter themes."
+  "notes": "The frosted glass widget no longer has an outline."
 }
