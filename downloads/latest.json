@@ -1,6 +1,6 @@
 {
-  "versionName": "0.10.2",
-  "versionCode": 423,
+  "versionName": "0.10.3",
+  "versionCode": 424,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "The frosted glass widget no longer has an outline."
+  "notes": "Widgets now show the whole square album cover at every size, never cropped."
 }
