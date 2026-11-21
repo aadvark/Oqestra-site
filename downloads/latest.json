@@ -1,6 +1,6 @@
 {
-  "versionName": "0.12.0",
-  "versionCode": 427,
+  "versionName": "0.12.1",
+  "versionCode": 428,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Album views (Grid, List, Details), remote and keyboard control, and Android TV."
+  "notes": "Quieter Grid, List and Details buttons: the one in use is simply underlined."
 }
