@@ -1,6 +1,6 @@
 {
-  "versionName": "0.10.4",
-  "versionCode": 425,
+  "versionName": "0.11.0",
+  "versionCode": 426,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Select several songs in the queue and remove them. A changed album cover now shows straight away everywhere."
+  "notes": "Landscape and tablets: a side rail for the library, and Now playing stays on the right while music plays."
 }
