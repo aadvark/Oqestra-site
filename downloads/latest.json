@@ -1,6 +1,6 @@
 {
-  "versionName": "0.12.1",
-  "versionCode": 428,
+  "versionName": "0.12.2",
+  "versionCode": 429,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Quieter Grid, List and Details buttons: the one in use is simply underlined."
+  "notes": "Android TV: panels such as Sound now take the remote's focus, and the TV starts in dark mode."
 }
