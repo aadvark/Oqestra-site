@@ -1,6 +1,6 @@
 {
-  "versionName": "0.12.2",
-  "versionCode": 429,
+  "versionName": "0.12.3",
+  "versionCode": 430,
   "url": "https://aadvark.github.io/Oqestra-site/downloads/oqestra.apk",
-  "notes": "Android TV: panels such as Sound now take the remote's focus, and the TV starts in dark mode."
+  "notes": "No more focus outline around the timeline on phones; it only shows when using a remote or keyboard."
 }
